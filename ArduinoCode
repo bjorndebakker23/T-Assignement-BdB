@@ -1,0 +1,132 @@
+const int buttonPins[3] = {2, 3, 4}; // Pins for buttons
+const int redLedPin = 5; // Pin for red LED
+const int greenLedPin = 6; // Pin for green LED
+const int secretCode[4] = {2, 3, 1, 1}; // Pre-saved code
+int enteredCode[4]; // Array to store entered code
+int codeIndex = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(redLedPin, OUTPUT);
+  pinMode(greenLedPin, OUTPUT);
+  for (int i = 0; i < 3; i++) {
+    pinMode(buttonPins[i], INPUT);
+  }
+  blinkRedLed();
+  Serial.println("Enter pin");
+}
+
+void loop() {
+  for (int i = 0; i < 3; i++) {
+    if (digitalRead(buttonPins[i]) == HIGH) {
+      enteredCode[codeIndex] = i + 1;
+      Serial.println(i + 1);
+      codeIndex++;
+      delay(500); // Debounce delay
+    }
+  }
+  if (codeIndex == 4) {
+    Serial.println("Pincode entered, checking...");
+    if (checkCode()) {
+      digitalWrite(greenLedPin, HIGH);
+      Serial.println("Safe open");
+      delay(1000);
+      digitalWrite(greenLedPin, LOW);
+    } else {
+      for (int i = 0; i < 3; i++) {
+        digitalWrite(redLedPin, HIGH);
+        delay(500);
+        digitalWrite(redLedPin, LOW);
+        delay(500);
+      }
+      Serial.println("Invalid code");
+    }
+    codeIndex = 0;
+    blinkRedLed();
+    Serial.println("Enter pin");
+  }
+}
+
+void blinkRedLed() {
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(redLedPin, HIGH);
+    delay(500);
+    digitalWrite(redLedPin, LOW);
+    delay(500);
+  }
+}
+
+bool checkCode() {
+  for (int i = 0; i < 4; i++) {
+    if (enteredCode[i] != secretCode[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+const int buttonPins[3] = {2, 3, 4}; // Pins for buttons
+const int redLedPin = 5; // Pin for red LED
+const int greenLedPin = 6; // Pin for green LED
+const int secretCode[4] = {2, 3, 1, 1}; // Pre-saved code
+int enteredCode[4]; // Array to store entered code
+int codeIndex = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(redLedPin, OUTPUT);
+  pinMode(greenLedPin, OUTPUT);
+  for (int i = 0; i < 3; i++) {
+    pinMode(buttonPins[i], INPUT);
+  }
+  blinkRedLed();
+  Serial.println("Enter pin");
+}
+
+void loop() {
+  for (int i = 0; i < 3; i++) {
+    if (digitalRead(buttonPins[i]) == HIGH) {
+      enteredCode[codeIndex] = i + 1;
+      Serial.println(i + 1);
+      codeIndex++;
+      delay(500); // Debounce delay
+    }
+  }
+  if (codeIndex == 4) {
+    Serial.println("Pincode entered, checking...");
+    if (checkCode()) {
+      digitalWrite(greenLedPin, HIGH);
+      Serial.println("Safe open");
+      delay(1000);
+      digitalWrite(greenLedPin, LOW);
+    } else {
+      for (int i = 0; i < 3; i++) {
+        digitalWrite(redLedPin, HIGH);
+        delay(500);
+        digitalWrite(redLedPin, LOW);
+        delay(500);
+      }
+      Serial.println("Invalid code");
+    }
+    codeIndex = 0;
+    blinkRedLed();
+    Serial.println("Enter pin");
+  }
+}
+
+void blinkRedLed() {
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(redLedPin, HIGH);
+    delay(500);
+    digitalWrite(redLedPin, LOW);
+    delay(500);
+  }
+}
+
+bool checkCode() {
+  for (int i = 0; i < 4; i++) {
+    if (enteredCode[i] != secretCode[i]) {
+      return false;
+    }
+  }
+  return true;
+}
