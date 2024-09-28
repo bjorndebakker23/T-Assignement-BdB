@@ -25,7 +25,7 @@ void loop() {
   Serial.print("Current Temperature: ");
   Serial.println(currentTemp);
 
-  if (currentTemp > thresholdTemp) {
+  if (currentTemp < thresholdTemp) {
     windowServo.write(90); // Open the window
   } else {
     windowServo.write(0); // Close the window
