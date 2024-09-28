@@ -36,7 +36,7 @@ void loop() {
 
 float readTemperature() {
   int analogValue = analogRead(tempPin);
-  float voltage = analogValue * (5.0 / 1023.0);
-  float temperatureC = voltage * 100.0; // Convert voltage to temperature in Celsius
+  float voltage = analogValue * (5.0 / 1024.0);
+  float temperatureC = (voltage - 0.5) * 100.0; // Convert voltage to temperature in Celsius
   return temperatureC;
 }
