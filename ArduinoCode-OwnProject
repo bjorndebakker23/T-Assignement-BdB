@@ -1,0 +1,42 @@
+#include <Servo.h>
+
+const int tempPin = A0; // Analog pin for temperature sensor
+const int servoPin = 9; // Digital pin for servo motor
+Servo windowServo;
+
+float thresholdTemp = 25.0; // Default threshold temperature
+float currentTemp;
+
+void setup() {
+  Serial.begin(9600);
+  windowServo.attach(servoPin);
+  windowServo.write(0); // Initial position of the window (closed)
+  Serial.println("Enter threshold temperature:");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    thresholdTemp = Serial.parseFloat();
+    Serial.print("Threshold temperature set to: ");
+    Serial.println(thresholdTemp);
+  }
+
+  currentTemp = readTemperature();
+  Serial.print("Current Temperature: ");
+  Serial.println(currentTemp);
+
+  if (currentTemp > thresholdTemp) {
+    windowServo.write(90); // Open the window
+  } else {
+    windowServo.write(0); // Close the window
+  }
+
+  delay(1000); // Delay for 1 second
+}
+
+float readTemperature() {
+  int analogValue = analogRead(tempPin);
+  float voltage = analogValue * (5.0 / 1023.0);
+  float temperatureC = voltage * 100.0; // Convert voltage to temperature in Celsius
+  return temperatureC;
+}
